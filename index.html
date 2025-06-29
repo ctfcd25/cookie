@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <title>CTF Cookie Challenge</title>
+  <style>
+    body {
+      background: #111;
+      color: #0f0;
+      font-family: monospace, monospace;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      padding: 20px;
+      user-select: none;
+    }
+    .flag {
+      margin-top: 20px;
+      padding: 10px 20px;
+      border: 2px dashed #0f0;
+      border-radius: 8px;
+      display: none;
+      font-weight: bold;
+      font-size: 1.3rem;
+      background: #000;
+      box-shadow: 0 0 10px #0f0 inset;
+    }
+  </style>
+</head>
+<body>
+  <h1>CTF Cookie Challenge</h1>
+  <p>Descobre a flag alterando o cookie <code>mostrarFlag</code> para <code>1</code> nas ferramentas do navegador.</p>
+
+  <div class="flag" id="flag">🎉 FLAG: CD25{cookie_domination}</div>
+
+  <script>
+    function getCookie(name) {
+      const cookies = document.cookie.split('; ');
+      for (let c of cookies) {
+        if (c.startsWith(name + '=')) {
+          return c.substring(name.length + 1);
+        }
+      }
+      return null;
+    }
+
+    function setCookie(name, value, days) {
+      let expires = "";
+      if (days) {
+        const date = new Date();
+        date.setTime(date.getTime() + (days*24*60*60*1000));
+        expires = "; expires=" + date.toUTCString();
+      }
+      document.cookie = name + "=" + value + expires + "; path=/";
+    }
+
+    function checkFlag() {
+      const val = getCookie('mostrarFlag');
+      console.log("Cookie mostrarFlag =", val);
+      const flagEl = document.getElementById('flag');
+      if (val === '1') {
+        flagEl.style.display = 'block';
+      } else {
+        flagEl.style.display = 'none';
+      }
+    }
+
+    // Inicializa cookie mostrarFlag=0 se não existir
+    if (getCookie('mostrarFlag') === null) {
+      setCookie('mostrarFlag', '0', 1);
+    }
+
+    checkFlag();
+
+    // Monitorar mudança do cookie a cada 1 segundo
+    let lastVal = getCookie('mostrarFlag');
+    setInterval(() => {
+      let currentVal = getCookie('mostrarFlag');
+      if (currentVal !== lastVal) {
+        lastVal = currentVal;
+        checkFlag();
+      }
+    }, 1000);
+  </script>
+</body>
+</html>
