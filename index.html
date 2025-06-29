@@ -81,9 +81,10 @@
 
     if (getCookie('mostrarFlag') === null) {
       setCookie('mostrarFlag', '0', 1);
+      setTimeout(checkFlag, 0);
+    } else {
+      checkFlag();
     }
-
-    checkFlag();
 
     let lastVal = getCookie('mostrarFlag');
     setInterval(() => {
