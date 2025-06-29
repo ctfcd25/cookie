@@ -27,6 +27,7 @@
       font-size: 1.3rem;
       background: #000;
       box-shadow: 0 0 10px #0f0 inset;
+      white-space: nowrap;
     }
   </style>
 </head>
@@ -34,9 +35,21 @@
   <h1>CTF Cookie Challenge</h1>
   <p>Descobre a flag alterando o cookie <code>mostrarFlag</code> para <code>1</code> nas ferramentas do navegador.</p>
 
-  <div class="flag" id="flag">🎉 FLAG: CD25{cookie_domination}</div>
+  <div class="flag" id="flag"></div>
 
   <script>
+    // Flag cifrada em base64: CD25{devoradorDeCookies}
+    const flagBase64 = "Q0QyNXtkZXZvcmFkb3JEZUNvb2tpZXN9";
+
+    // Função para decodificar base64
+    function decodeBase64(str) {
+      try {
+        return atob(str);
+      } catch(e) {
+        return "Erro ao decodificar flag";
+      }
+    }
+
     function getCookie(name) {
       const cookies = document.cookie.split('; ');
       for (let c of cookies) {
@@ -59,11 +72,12 @@
 
     function checkFlag() {
       const val = getCookie('mostrarFlag');
-      console.log("Cookie mostrarFlag =", val);
       const flagEl = document.getElementById('flag');
       if (val === '1') {
+        flagEl.textContent = decodeBase64(flagBase64);
         flagEl.style.display = 'block';
       } else {
+        flagEl.textContent = '';
         flagEl.style.display = 'none';
       }
     }
