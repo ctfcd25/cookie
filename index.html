@@ -32,16 +32,13 @@
   </style>
 </head>
 <body>
-  <h1>CTF Cookie Challenge</h1>
-  <p>Descobre a flag alterando o cookie <code>mostrarFlag</code> para <code>1</code> nas ferramentas do navegador.</p>
+  <h1>Inspeciona bem esta página...</h1>
 
   <div class="flag" id="flag"></div>
 
   <script>
-    // Flag cifrada em base64: CD25{devoradorDeCookies}
     const flagBase64 = "Q0QyNXtkZXZvcmFkb3JEZUNvb2tpZXN9";
 
-    // Função para decodificar base64
     function decodeBase64(str) {
       try {
         return atob(str);
@@ -82,14 +79,12 @@
       }
     }
 
-    // Inicializa cookie mostrarFlag=0 se não existir
     if (getCookie('mostrarFlag') === null) {
       setCookie('mostrarFlag', '0', 1);
     }
 
     checkFlag();
 
-    // Monitorar mudança do cookie a cada 1 segundo
     let lastVal = getCookie('mostrarFlag');
     setInterval(() => {
       let currentVal = getCookie('mostrarFlag');
